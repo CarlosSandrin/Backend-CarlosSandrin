@@ -1,9 +1,10 @@
 import express from "express";
 import { Router } from "express";
-import { ProductManagerMongo } from "../dao/services/productManagerMongo.js";
+import { ViewsController } from "../controllers/views.controller.js";
 import { productsModel } from "../dao/models/products.model.js";
+import { checkAdmin, checkUser } from "../middlewares/auth.js";
 
-const productManagerMongo = new ProductManagerMongo();
+const viewsController = new ViewsController();
 
 export const viewsRouter = Router();
 
@@ -11,25 +12,14 @@ viewsRouter.use(express.json());
 viewsRouter.use(express.urlencoded({ extended: true }));
 
 viewsRouter.get("/", async (req, res) => {
-  const allProducts = await productManagerMongo.getProducts(req.query);
-
-  res.status(200).render("home", {
-    p: allProducts.docs.map((product) => ({
-      name: product.name,
-      description: product.description,
-      price: product.price,
-    })),
-    pagingCounter: allProducts.pagingCounter,
-    page: allProducts.page,
-    totalPages: allProducts.totalPages,
-    hasPrevPage: allProducts.hasPrevPage,
-    hasNextPage: allProducts.hasNextPage,
-    prevPage: allProducts.prevPage,
-    nextPage: allProducts.nextPage,
-
-    // ...allProducts,
-  });
+  res.render("login");
 });
+
+viewsRouter.get("/products", checkUser, viewsController.getProducts);
+
+viewsRouter.get("/productDetail/:pid", viewsController.getProductById);
+
+viewsRouter.get("/carts/:cid", viewsController.getCartById);
 
 viewsRouter.get("/realtimeproducts", async (req, res) => {
   res.render("realTimeProducts", {});
@@ -37,4 +27,18 @@ viewsRouter.get("/realtimeproducts", async (req, res) => {
 
 viewsRouter.get("/chat", async (req, res) => {
   res.render("chat", {});
+});
+
+viewsRouter.get("/login", async (req, res) => {
+  res.render("login");
+});
+
+viewsRouter.get("/logout", viewsController.logout);
+
+viewsRouter.get("/register", async (req, res) => {
+  res.render("register");
+});
+
+viewsRouter.get("/profile", checkUser, async (req, res) => {
+  res.render("profile");
 });
