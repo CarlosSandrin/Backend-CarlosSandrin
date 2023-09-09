@@ -8,14 +8,12 @@ import winston from "winston";
 import nodemailer from "nodemailer";
 import config from "../../config.js";
 
-console.log(config);
-
 export default __dirname;
 
 export async function connectMongo() {
   try {
     await connect(
-      "mongodb+srv://agusvj:7C2af80b2e53asd@cluster0.gjhmyvj.mongodb.net/ecommerce?retryWrites=true&w=majority"
+      "mongodb+srv://carlossandrin23:KSQEZoLvrl0Ws8GN@cluster0.bsdtxr5.mongodb.net/?retryWrites=true&w=majority"
     );
     console.log("plug mongo");
   } catch (e) {
