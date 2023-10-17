@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node CarlosSandrin/src/app.js"
+    "test": "mocha",
+    "start": "node CarlosSandrin/src/app.js",
+    "dev": "nodemon -e yaml CarlosSandrin/src/app.js"
   },
   "author": "",
   "license": "ISC",
@@ -31,5 +32,10 @@
     "swagger-ui-express": "^5.0.0",
     "sweetalert2": "^11.4.8",
     "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }
